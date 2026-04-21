@@ -1,0 +1,5 @@
+/.vscode/*
+/backend/dist/*
+/backend/node_modules/*
+/idea/*
+/backend/package-lock.json

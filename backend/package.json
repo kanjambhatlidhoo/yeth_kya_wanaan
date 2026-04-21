@@ -1,0 +1,33 @@
+{
+  "name": "get-translation-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A typescript service consuming SarvamAI sarvam:translate model for translation of input into Kashmiri.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "test": "mocha --require tsx/cjs \"test/**/*.test.ts\"",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "ajv": "^8.18.0",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "js-yaml": "^4.1.0",
+    "sarvamai": "^1.1.6",
+    "transliterate": "^1.0.1",
+    "transliteration": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.2.3",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.21",
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.2",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.3"
+  }
+}
