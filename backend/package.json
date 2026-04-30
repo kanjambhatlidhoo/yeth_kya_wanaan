@@ -7,7 +7,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",
     "test": "mocha --require tsx/cjs \"test/**/*.test.ts\"",
-    "start": "node dist/index.js"
+    "start": "npm run build && node dist/index.js"
   },
   "dependencies": {
     "ajv": "^8.18.0",

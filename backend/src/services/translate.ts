@@ -118,10 +118,10 @@ export class Translate {
 
             if (!translatedString) {
                 throw createTranslationError(502, "Translation provider returned an invalid response.", {
-                    translatedText: response?.translated_text ?? null
+                    translatedText: response?.translated_text ?? undefined
                 });
             }
-
+            
             let transliteratedRomanString = "";
 
             try {
