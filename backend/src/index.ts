@@ -88,8 +88,7 @@ export const validateTranslateRequest = validateRequestBody(
 );
 
 export async function translateRequestHandler(req: Request<{}, {}, TranslateRequestBody>, res: Response): Promise<void> {
-    req.body.text = req.body.text.trim();
-    const input = req.body.text;
+    const input = req?.body?.text?.trim();
 
     try {
         const translatedStringObject: any = await Translate.getInstance().getKashmiriTranslation(input);
@@ -187,8 +186,10 @@ export function startServer(config: AppConfig = loadConfig()): http.Server {
 
     return app.listen(config.server.port, config.server.host, () => {
         console.log(
-            `Server running at http://${config.server.host}:${config.server.port}${config.api.basePath}/`
+            `Server running at http://localhost:${config.server.port}${config.api.basePath}/`
         );
+
+        console.log(config.api.greetingMessage);
     });
 }
 
