@@ -81,8 +81,8 @@
 
         const rect = getAnchorRect(state.anchor);
 
-        if (!rect) {
-            dismissPopover();
+        if (!rect || !doesRectIntersectViewport(rect)) {
+            dismissPopover({ cancelPending: true });
             return;
         }
 
@@ -143,24 +143,39 @@
         }
 
         const currentSelectionDetails = getSelectionDetails();
+        const currentMatch = resolveSelectionMatch(currentSelectionDetails, requestedText);
 
-        if (doesSelectionMatch(currentSelectionDetails, requestedText)) {
-            return currentSelectionDetails;
+        if (currentMatch) {
+            return currentMatch;
         }
 
-        if (doesSelectionMatch(latestSelectionDetails, requestedText)) {
-            return latestSelectionDetails;
+        const latestMatch = resolveSelectionMatch(latestSelectionDetails, requestedText);
+
+        if (latestMatch) {
+            return latestMatch;
         }
 
         return null;
     }
 
-    function doesSelectionMatch(selectionDetails, requestedText) {
+    function resolveSelectionMatch(selectionDetails, requestedText) {
         if (!selectionDetails) {
-            return false;
+            return null;
         }
 
-        return readSelectedText(selectionDetails.text) === requestedText;
+        const selectedText = readSelectedText(selectionDetails.text);
+
+        if (
+            selectedText !== requestedText &&
+            normalizeComparableText(selectedText) !== normalizeComparableText(requestedText)
+        ) {
+            return null;
+        }
+
+        return {
+            text: requestedText,
+            anchor: selectionDetails.anchor
+        };
     }
 
     function getSelectionDetails() {
@@ -604,7 +619,7 @@
     function positionFromCurrentAnchor() {
         const rect = getAnchorRect(state.anchor);
 
-        if (!rect) {
+        if (!rect || !doesRectIntersectViewport(rect)) {
             dismissPopover();
             return;
         }
@@ -662,7 +677,7 @@
             const clientRects = Array.from(range.getClientRects()).filter(isRectVisible);
 
             if (clientRects.length > 0) {
-                return clientRects[0];
+                return clientRects.find(doesRectIntersectViewport) || clientRects[0];
             }
 
             const boundingRect = range.getBoundingClientRect();
@@ -683,6 +698,14 @@
 
     function isRectVisible(rect) {
         return Boolean(rect) && (rect.width > 0 || rect.height > 0);
+    }
+
+    function doesRectIntersectViewport(rect) {
+        return Boolean(rect) &&
+            rect.bottom > 0 &&
+            rect.right > 0 &&
+            rect.top < window.innerHeight &&
+            rect.left < window.innerWidth;
     }
 
     function isPopoverVisible() {
@@ -713,6 +736,10 @@
         }
 
         return text.trim();
+    }
+
+    function normalizeComparableText(text) {
+        return readSelectedText(text).replace(/\s+/g, " ");
     }
 
     function clamp(value, min, max) {
