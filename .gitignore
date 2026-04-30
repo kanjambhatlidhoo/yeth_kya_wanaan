@@ -3,4 +3,7 @@
 /backend/dist/*
 /backend/node_modules/*
 /idea/*
+!/idea/images/
+!/idea/images/system design.png
 /backend/package-lock.json
+.DS_Store
