@@ -1,6 +1,6 @@
 # Yeth Kya Wanaan Backend
 
-Yeth Kya Wanaan translates selected English text into Kashmiri using the Sarvam AI translation API. The backend runs on your computer and the Chrome extension sends selected text to it.
+Yeth Kya Wanaan translates selected English text into Kashmiri using the Sarvam AI translation API. The backend runs on your computer and the Chrome extension sends selected text to it. This extension is hosted locally.
 
 ![System design](<idea/images/system design.png>)
 
